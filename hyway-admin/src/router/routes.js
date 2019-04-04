@@ -39,17 +39,97 @@ const frameIn = [
   },
   {
     path: '/system',
-    redirect: '/system/base',
+    redirect: '/system/resources',
     component: layoutHeaderAside,
     children: [
       {
-        path: 'base',
-        name: 'schedule',
+        path: 'resources',
+        name: 'resources',
         meta: {
           requiresAuth: false,
-          title: '定时任务'
+          title: '菜单'
         },
-        component: () => import('@/views/system/schedule')
+        component: () => import('@/views/system/resources/')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    redirect: '/system/user',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'user',
+        name: 'userpage',
+        meta: {
+          requiresAuth: false,
+          title: '用户'
+        },
+        component: () => import('@/views/system/user/')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    redirect: '/system/role',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'role',
+        name: 'rolePage',
+        meta: {
+          requiresAuth: false,
+          title: '角色'
+        },
+        component: () => import('@/views/system/role/')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    redirect: '/system/route',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'route',
+        name: 'routePage',
+        meta: {
+          requiresAuth: false,
+          title: '路由'
+        },
+        component: () => import('@/views/system/route/')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    redirect: '/system/dict',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'dict',
+        name: 'dictPage',
+        meta: {
+          requiresAuth: false,
+          title: '路由'
+        },
+        component: () => import('@/views/system/dict/')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    redirect: '/system/schedule',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'schedule',
+        name: 'dictPage',
+        meta: {
+          requiresAuth: false,
+          title: '路由'
+        },
+        component: () => import('@/views/system/schedule/')
       }
     ]
   }

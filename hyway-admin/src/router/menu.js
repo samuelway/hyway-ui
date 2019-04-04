@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import util from '@/libs/util.js'
 import { validatenull } from '@/libs/validate.js'
 import store from '@/store/index'
-import { GetMenu } from '@/api/menu'
+import { GetMenu } from '@/api/sys/resources'
 import { frameInRoutes } from '@/router/routes'
 
 // 路由数据
