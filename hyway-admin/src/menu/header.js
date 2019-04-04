@@ -1,6 +1,6 @@
 // 菜单 顶栏
 export default [
-  { path: '/views', title: '首页', icon: 'home' },
+  { path: '/index', title: '首页', icon: 'home' },
   {
     title: '系统管理',
     icon: 'folder-o',
