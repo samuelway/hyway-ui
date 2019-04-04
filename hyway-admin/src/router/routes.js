@@ -17,23 +17,7 @@ const frameIn = [
           requiresAuth: true,
           title: '首页'
         },
-        component: () => import('@/pages/index')
-      }
-    ]
-  },
-  {
-    path: '/myiframe',
-    redirect: '/myiframe',
-    component: layoutHeaderAside,
-    children: [
-      {
-        path: ':routerPath',
-        name: 'iframe',
-        meta: {
-          requiresAuth: true,
-          title: 'iframe'
-        },
-        component: () => import('@/pages/iframe')
+        component: () => import('@/views/index')
       }
     ]
   },
@@ -143,7 +127,7 @@ const frameOut = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/pages/login')
+    component: () => import('@/views/login')
   }
 ]
 
@@ -155,7 +139,7 @@ const errorPage = [
   {
     path: '*',
     name: '404',
-    component: () => import('@/pages/error-page-404')
+    component: () => import('@/views/error-page-404')
   }
 ]
 
