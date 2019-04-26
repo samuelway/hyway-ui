@@ -32,21 +32,26 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="name" show-overflow-tooltip>
+      <el-table-column align="center" label="uuid" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.uuid }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="group" show-overflow-tooltip>
+      <el-table-column label="用户名" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.group }}</span>
+          <span>{{ scope.row.username }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="手机号" show-overflow-tooltip>
+        <template slot-scope="scope">
+          <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="cron">
+      <el-table-column align="center" label="创建时间">
         <template slot-scope="scope">
-          <span>{{ scope.row.cronExpression }}</span>
+          <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
 
@@ -56,11 +61,20 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="status">
+      <el-table-column align="center" label="状态">
         <template slot-scope="scope">
           <span>{{ scope.row.status}}</span>
         </template>
       </el-table-column>
+      <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
     </el-table>
     <!-- footer 分页条 -->
     <template slot="footer">
@@ -80,7 +94,7 @@
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/sys/dict/dict'
+import { delObj, fetchList } from '@/api/sys/user/user'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -89,7 +103,7 @@ export default {
     return {
       list: null,
       total: null,
-      sys_dict_add: false,
+      sys_user_add: false,
       listLoading: true,
       listQuery: {
         page: 1,
@@ -113,7 +127,7 @@ export default {
       this.listQuery.orderByField = 'create_time'
       this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.records
+        this.list = response.list
         this.total = response.total
         this.listLoading = false
       })

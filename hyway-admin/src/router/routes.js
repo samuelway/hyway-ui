@@ -108,7 +108,7 @@ const frameIn = [
     children: [
       {
         path: 'schedule',
-        name: 'dictPage',
+        name: 'schedule',
         meta: {
           requiresAuth: false,
           title: '路由'

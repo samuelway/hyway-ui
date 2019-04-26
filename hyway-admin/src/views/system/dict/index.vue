@@ -16,6 +16,9 @@
           <el-form-item>
             <el-button type="default" icon="el-icon-search" @click="handleFilter">搜 索</el-button>
           </el-form-item>
+           <el-form-item>
+              <el-button type="primary" icon="el-icon-refresh" >刷新缓存</el-button>
+          </el-form-item>
       </el-form>
     </template>
     <el-table
@@ -32,35 +35,44 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="name" show-overflow-tooltip>
+      <el-table-column align="center" label="字典标志" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.dictCode }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="group" show-overflow-tooltip>
+      <el-table-column label="字典标志描述" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.group }}</span>
+          <span>{{ scope.row.dictCodeDesc }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="cron">
+      <el-table-column align="center" label="字典类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.cronExpression }}</span>
+          <span>{{ scope.row.dictType }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="描述">
+      <el-table-column align="center" label="字典类型描述">
         <template slot-scope="scope">
-          <span>{{ scope.row.description }}</span>
+          <span>{{ scope.row.dictTypeDesc }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="status">
+      <el-table-column align="center" label="排序">
         <template slot-scope="scope">
-          <span>{{ scope.row.status}}</span>
+          <span>{{ scope.row.dictsort}}</span>
         </template>
       </el-table-column>
+      <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
     </el-table>
     <!-- footer 分页条 -->
     <template slot="footer">
@@ -113,7 +125,7 @@ export default {
       this.listQuery.orderByField = 'create_time'
       this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.records
+        this.list = response.list
         this.total = response.total
         this.listLoading = false
       })

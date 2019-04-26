@@ -32,35 +32,54 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="name" show-overflow-tooltip>
+      <el-table-column align="center" label="菜单名" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="group" show-overflow-tooltip>
+      <el-table-column label="权限标志" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.group }}</span>
+          <span>{{ scope.row.permission }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="cron">
+      <el-table-column align="center" label="后端链接">
         <template slot-scope="scope">
-          <span>{{ scope.row.cronExpression }}</span>
+          <span>{{ scope.row.url }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="描述">
+      <el-table-column align="center" label="访问方式">
         <template slot-scope="scope">
-          <span>{{ scope.row.description }}</span>
+          <span>{{ scope.row.method }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="status">
+      <el-table-column align="center" label="图标">
         <template slot-scope="scope">
-          <span>{{ scope.row.status}}</span>
+          <span>{{ scope.row.icon}}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="类型">
+        <template slot-scope="scope">
+          <span>{{ scope.row.type}}</span>
+        </template>
+      </el-table-column>
+       <el-table-column align="center" label="前端URL">
+        <template slot-scope="scope">
+          <span>{{ scope.row.path}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
     </el-table>
     <!-- footer 分页条 -->
     <template slot="footer">
@@ -113,8 +132,8 @@ export default {
       this.listQuery.orderByField = 'create_time'
       this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.value.list
-        this.total = response.value.total
+        this.list = response.list
+        this.total = response.total
         this.listLoading = false
       })
     },

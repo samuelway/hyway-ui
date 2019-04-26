@@ -32,35 +32,32 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="name" show-overflow-tooltip>
+      <el-table-column align="center" label="角色名" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.roleName }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="group" show-overflow-tooltip>
+      <el-table-column label="角色CODE" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.group }}</span>
+          <span>{{ scope.row.roleCode }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="cron">
+      <el-table-column align="center" label="角色描述">
         <template slot-scope="scope">
-          <span>{{ scope.row.cronExpression }}</span>
+          <span>{{ scope.row.roleDesc }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="描述">
-        <template slot-scope="scope">
-          <span>{{ scope.row.description }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="status">
-        <template slot-scope="scope">
-          <span>{{ scope.row.status}}</span>
-        </template>
-      </el-table-column>
+      <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
     </el-table>
     <!-- footer 分页条 -->
     <template slot="footer">
@@ -80,7 +77,7 @@
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/sys/dict/dict'
+import { delObj, fetchList } from '@/api/sys/role/role'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -113,7 +110,7 @@ export default {
       this.listQuery.orderByField = 'create_time'
       this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.records
+        this.list = response.list
         this.total = response.total
         this.listLoading = false
       })

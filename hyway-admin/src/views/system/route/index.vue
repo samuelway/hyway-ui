@@ -32,35 +32,54 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="name" show-overflow-tooltip>
+      <el-table-column align="center" label="路由ID" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.routeId }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="group" show-overflow-tooltip>
+      <el-table-column label="服务转发地址" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.group }}</span>
+          <span>{{ scope.row.forwardUri }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="cron">
+      <el-table-column align="center" label="路由排序">
         <template slot-scope="scope">
-          <span>{{ scope.row.cronExpression }}</span>
+          <span>{{ scope.row.routeOrder }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="描述">
+      <el-table-column align="center" label="路由拦截器">
         <template slot-scope="scope">
-          <span>{{ scope.row.description }}</span>
+          <span>{{ scope.row.routeFilter }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="status">
+      <el-table-column align="center" label="路由断言">
         <template slot-scope="scope">
-          <span>{{ scope.row.status}}</span>
+          <span>{{ scope.row.routePredicates}}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="是否启用">
+        <template slot-scope="scope">
+          <span>{{ scope.row.routeEnable}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="是否删除">
+        <template slot-scope="scope">
+          <span>{{ scope.row.deleteState}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+      <template slot-scope="scope">
+        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
     </el-table>
     <!-- footer 分页条 -->
     <template slot="footer">
@@ -80,7 +99,7 @@
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/sys/resources/resources'
+import { delObj, fetchList } from '@/api/sys/route/route'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -113,8 +132,8 @@ export default {
       this.listQuery.orderByField = 'create_time'
       this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.value.list
-        this.total = response.value.total
+        this.list = response.list
+        this.total = response.total
         this.listLoading = false
       })
     },
