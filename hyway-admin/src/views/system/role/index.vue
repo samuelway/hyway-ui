@@ -33,7 +33,7 @@
             node-key="id"
             :default-expanded-keys="[2]"
             :default-checked-keys="[1]"
-            :props="defaultProps" check-on-click-node>
+            :props="defaultProps" >
           </el-tree>
         <el-form-item>
           <el-button type="primary" @click="onSubmitRolePermission('rpform')">确认分配</el-button>
