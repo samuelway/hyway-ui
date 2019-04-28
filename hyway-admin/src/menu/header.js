@@ -7,10 +7,11 @@ export default [
     children: [
       { path: '/system/user', title: '用户管理' },
       { path: '/system/role', title: '角色管理' },
-	  { path: '/system/resources', title: '菜单管理' },
-	  { path: '/system/route', title: '路由管理' },
-	  { path: '/system/dict', title: '字典管理' },
-	  { path: '/system/schedule', title: '定时器管理'}
+      { path: '/system/resources', title: '菜单管理' },
+      { path: '/system/resources/tree', title: '树形菜单管理', icon: '' },
+      { path: '/system/route', title: '路由管理' },
+      { path: '/system/dict', title: '字典管理' },
+      { path: '/system/schedule', title: '定时器管理' }
     ]
   }
 ]

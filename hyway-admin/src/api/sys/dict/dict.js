@@ -10,19 +10,19 @@ export function fetchList (query) {
 
 export function delObj (id) {
   return request({
-    url: '/system/dict/delete',
+    url: '/system/dict/deleteSysDictById',
     method: 'delete'
   })
 }
-export function updateObj (id) {
+export function updateObj (obj) {
   return request({
-    url: '/system/dict/delete',
+    url: '/system/dict/updateSysDict',
     method: 'put'
   })
 }
-export function addObj (id) {
+export function addObj (obj) {
   return request({
-    url: '/system/dict/insert',
+    url: '/system/dict/insertSysDict',
     method: 'put'
   })
 }

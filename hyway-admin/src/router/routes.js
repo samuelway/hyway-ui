@@ -31,7 +31,7 @@ const frameIn = [
         name: 'resources',
         meta: {
           requiresAuth: false,
-          title: '菜单'
+          title: '树形菜单'
         },
         component: () => import('@/views/system/resources/')
       }

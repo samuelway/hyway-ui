@@ -2,22 +2,45 @@
   <d2-container>
     <!-- header 查询条件 -->
     <template slot="header">
-      <el-form
-        :inline="true"
-        :model="listQuery"
-        size="mini"
-        style="margin-bottom: -18px;">
-          <el-form-item label="日志类型" prop="type">
-            <el-select v-model="listQuery.type" filterable placeholder="请选择" clearable>
-              <el-option label="登录日志" value="Login"></el-option>
-              <el-option label="操作日志" value="Operation"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="default" icon="el-icon-search" @click="handleFilter">搜 索</el-button>
-          </el-form-item>
-      </el-form>
+    <el-button type="default" icon="el-icon-add" @click="dialogRoleFormVisible = true">添加角色</el-button>
     </template>
+      <el-dialog title="添加角色" :visible.sync="dialogRoleFormVisible" width="40%"   :before-close="handleClose" modal>
+      <el-form ref="form" :model="form" label-width="80px" >
+      <el-form-item label="角色名" prop="name" :rules="[
+        { required: true, message: '菜单名称不能为空'}
+      ]">
+        <el-input type="name" v-model="form.roleName"></el-input>
+      </el-form-item>
+      <el-form-item label="角色code" prop="code" :rules="[
+        { required: true, message: '角色code不能为空'}
+      ]">
+        <el-input type="code" v-model="form.roleCode"></el-input>
+      </el-form-item>
+      <el-form-item label="角色描述">
+        <el-input v-model="form.roleDesc"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+      </el-form-item>
+    </el-form>
+    </el-dialog>
+    <el-dialog title="分配权限" :visible.sync="dialogRolePermissionFormVisible" width="40%"   :before-close="handleClose" modal>
+        <el-form ref="rpform" :model="rpform" label-width="80px" >
+          <el-tree ref="tree"
+            :data="data"
+            show-checkbox
+            node-key="id"
+            :default-expanded-keys="[2]"
+            :default-checked-keys="[1]"
+            :props="defaultProps" check-on-click-node>
+          </el-tree>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmitRolePermission('rpform')">确认分配</el-button>
+          <el-button @click="dialogRolePermissionFormVisible = false">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
     <el-table
             :key='tableKey'
             :data="list"
@@ -38,7 +61,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="角色CODE" show-overflow-tooltip>
+      <el-table-column label="角色代码" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.roleCode }}</span>
         </template>
@@ -54,7 +77,7 @@
       label="操作"
       width="100">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+        <el-button @click="authPermission(scope.row)" type="text" size="small">分配权限</el-button>
         <el-button type="text" size="small">编辑</el-button>
       </template>
     </el-table-column>
@@ -77,7 +100,8 @@
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/sys/role/role'
+import { assignRoleermissions,delObj, fetchList } from '@/api/sys/role/role'
+import { addObj,fetchTreeList } from '@/api/sys/resources/resources'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -86,11 +110,30 @@ export default {
     return {
       list: null,
       total: null,
-      sys_dict_add: false,
+      sys_role_add: false,
+      dialogRoleFormVisible:false,
+      dialogRolePermissionFormVisible:false,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 10
+      },
+      form: {
+          id: '',
+          roleName: '',
+          roleCode: '',
+          roleDesc: ''
+      },
+      rpform:{
+          roleId:'',
+          roleName:'',
+          menuIds:[]
+      },
+      rpData:[],
+      data:[],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       },
       tableKey: 0
     }
@@ -114,6 +157,36 @@ export default {
         this.total = response.total
         this.listLoading = false
       })
+      fetchTreeList(this.listQuery).then(response => {
+        this.data = response
+        this.listLoading = false
+      })
+    },
+    authPermission(data){
+     this.dialogRolePermissionFormVisible = true
+     this.rpform.roleId=data.roleId
+     this.rpform.roleName=data.roleName
+    },
+    onSubmitRolePermission(formName){
+      this.rpform.menuIds=this.$refs.tree.getCheckedKeys().join(',')
+      console.log(this.rpform.menuIds)
+      assignRoleermissions(this.rpform).then(response => {
+        if(response){
+                this.dialogRolePermissionFormVisible = false
+                this.$notify({
+                  title: '添加成功',
+                  message: '菜单添加成功',
+                  type: 'success'
+                });
+                this.getList()
+              }else{
+                this.$notify.error({
+                  title: '添加错误',
+                  message: '菜单添加错误',
+                  type: 'success'
+                });
+              }
+      })
     },
     handleSizeChange (val) {
       this.listQuery.limit = val
@@ -123,21 +196,15 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
-    handleDelete (row) {
-      delObj(row.id).then(response => {
-        this.dialogFormVisible = false
-        this.getList()
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
-        })
-      })
-    },
     handleFilter () {
       this.listQuery.page = 1
       this.getList()
+    },handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
     }
   }
 }

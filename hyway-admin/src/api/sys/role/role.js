@@ -14,3 +14,11 @@ export function delObj (id) {
     method: 'delete'
   })
 }
+export function assignRoleermissions (data) {
+  return request({
+    url: '/system/role/assignRoleermissions',
+    method: 'POST',
+    data
+  })
+}
+
