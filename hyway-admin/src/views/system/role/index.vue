@@ -31,8 +31,7 @@
             :data="data"
             show-checkbox
             node-key="id"
-            :default-expanded-keys="[2]"
-            :default-checked-keys="[1]"
+            :default-checked-keys="checkedKeys" check-strictly
             :props="defaultProps" >
           </el-tree>
         <el-form-item>
@@ -100,7 +99,7 @@
 </template>
 
 <script>
-import { assignRoleermissions,delObj, fetchList } from '@/api/sys/role/role'
+import { fetchRoleResList,assignRoleermissions,delObj, fetchList } from '@/api/sys/role/role'
 import { addObj,fetchTreeList } from '@/api/sys/resources/resources'
 import { mapGetters } from 'vuex'
 
@@ -110,6 +109,8 @@ export default {
     return {
       list: null,
       total: null,
+      checkedKeys: [1],
+      checkedExpKeys: [2],
       sys_role_add: false,
       dialogRoleFormVisible:false,
       dialogRolePermissionFormVisible:false,
@@ -128,6 +129,9 @@ export default {
           roleId:'',
           roleName:'',
           menuIds:[]
+      },
+      roleReqForm:{
+        roleId:''
       },
       rpData:[],
       data:[],
@@ -162,13 +166,20 @@ export default {
         this.listLoading = false
       })
     },
+    getRoleTree(roleId){
+      this.roleReqForm.roleId=roleId
+      fetchRoleResList(this.roleReqForm).then(response => {
+        this.checkedKeys = response
+      })
+    },
     authPermission(data){
      this.dialogRolePermissionFormVisible = true
+     this.getRoleTree(data.roleId)
      this.rpform.roleId=data.roleId
      this.rpform.roleName=data.roleName
     },
     onSubmitRolePermission(formName){
-      this.rpform.menuIds=this.$refs.tree.getCheckedKeys().join(',')
+      this.rpform.menuIds=this.$refs.tree.getCheckedKeys()
       console.log(this.rpform.menuIds)
       assignRoleermissions(this.rpform).then(response => {
         if(response){
@@ -200,11 +211,10 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
+      this.$confirm('确认关闭？')
+        .then(_ => {
+            done()
+            }).catch(_ => {})
     }
   }
 }

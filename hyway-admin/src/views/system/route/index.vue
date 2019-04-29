@@ -1,23 +1,11 @@
 <template>
   <d2-container>
     <!-- header 查询条件 -->
-    <template slot="header">
-      <el-form
-        :inline="true"
-        :model="listQuery"
-        size="mini"
-        style="margin-bottom: -18px;">
-          <el-form-item label="日志类型" prop="type">
-            <el-select v-model="listQuery.type" filterable placeholder="请选择" clearable>
-              <el-option label="登录日志" value="Login"></el-option>
-              <el-option label="操作日志" value="Operation"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="default" icon="el-icon-search" @click="handleFilter">搜 索</el-button>
-          </el-form-item>
-      </el-form>
-    </template>
+    <div slot="header" flex="main:justify">
+       <el-button type="primary" icon="el-icon-refresh" @click="dialogFormVisible = true">添加路由</el-button>
+       <el-button type="primary" icon="el-icon-refresh" @click="refreshRoute">刷新缓存</el-button>
+       <el-button type="primary" icon="el-icon-refresh" @click="refreshRemoteRoute">刷新网关缓存</el-button>
+    </div>
     <el-table
             :key='tableKey'
             :data="list"
@@ -95,11 +83,24 @@
           style="margin: -10px;">
         </el-pagination>
     </template>
+    <el-dialog title="添加路由" :visible.sync="dialogFormVisible" width="40%"  :before-close="handleClose" modal>
+    <el-form ref="form" :model="form" label-width="80px" >
+    <el-form-item label="路由ID" prop="routeId" :rules="[
+      { required: true, message: '路由ID不能为空'}
+    ]">
+      <el-input type="routeId" v-model="form.routeId"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+       <el-button @click="dialogFormVisible = false">取 消</el-button>
+    </el-form-item>
+  </el-form>
+</el-dialog>
   </d2-container>
 </template>
 
 <script>
-import { delObj, fetchList } from '@/api/sys/route/route'
+import { refreshRemote,refresh,delObj, fetchList } from '@/api/sys/route/route'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -108,12 +109,15 @@ export default {
     return {
       list: null,
       total: null,
+      dialogFormVisible:false,
+      value:new Date(),
       sys_resources_add: false,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 10
       },
+      form:{routeId:''},
       tableKey: 0
     }
   },
@@ -141,6 +145,12 @@ export default {
       this.listQuery.limit = val
       this.getList()
     },
+    refreshRoute(){
+
+    },
+    refreshRemoteRoute(){
+
+    },
     handleCurrentChange (val) {
       this.listQuery.page = val
       this.getList()
@@ -160,6 +170,37 @@ export default {
     handleFilter () {
       this.listQuery.page = 1
       this.getList()
+    },onSubmit (formName) {
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+            addObj(this.form).then(response => {
+              if(response){
+                this.dialogFormVisible = false
+                this.$notify({
+                  title: '添加成功',
+                  message: '菜单添加成功',
+                  type: 'success'
+                });
+                this.getList()
+              }else{
+                this.$notify.error({
+                  title: '添加错误',
+                  message: '菜单添加错误',
+                  type: 'success'
+                });
+              }
+            })
+          } else {
+            
+            return false;
+          }
+        });
+    },handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
     }
   }
 }

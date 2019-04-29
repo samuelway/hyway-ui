@@ -18,6 +18,7 @@
           </el-form-item>
            <el-form-item>
               <el-button type="primary" icon="el-icon-refresh" >刷新缓存</el-button>
+              <el-button type="primary" icon="el-icon-refresh" >刷新网关缓存</el-button>
           </el-form-item>
       </el-form>
     </template>

@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import util from '@/libs/util.js'
-import { validatenull } from '@/libs/validate.js'
+//import { validatenull } from '@/libs/validate.js'
 import store from '@/store/index'
-import { GetMenu } from '@/api/sys/resources'
-import { frameInRoutes } from '@/router/routes'
+//import { GetMenu } from '@/api/sys/auth'
 
 // 路由数据
 import routes from './routes'
@@ -12,7 +11,7 @@ import routes from './routes'
 Vue.use(VueRouter)
 
 // 导出路由 在 main.js 里使用
-const router = new VueRouter({
+const routerMenu = new VueRouter({
   routes
 })
 
@@ -20,11 +19,12 @@ const router = new VueRouter({
  * 路由拦截
  * 权限验证
  */
-router.beforeEach((to, from, next) => {
+routerMenu.beforeEach((to, from, next) => {
   if (validatenull(store.state.d2admin.user.accessToken) && !validatenull(util.getToken())) {
     // 登录了还没有查询菜单
     // 查询用户菜单
     GetMenu().then(res => {
+      console.log(res)
       // 设置用户菜单
       store.commit('d2admin/user/SET_MENU', res.data)
       let oRoutes = util.formatRoutes(res.data)
@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
       store.commit('d2admin/menu/asideSet', res.data)
       // 设置顶栏菜单
       store.commit('d2admin/menu/headerSet', res.data)
-      router.addRoutes(oRoutes)
+      routerMenu.addRoutes(oRoutes)
       next({name: 'index'})
     }).catch(() => {
       // 查询菜单失败 跳转到登陆界面
@@ -60,9 +60,9 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(to => {
+routerMenu.afterEach(to => {
   // 需要的信息
-  const app = router.app
+  const app = routerMenu.app
   const { name, params, query } = to
   // 多页控制 打开新的页面
   app.$store.commit('d2admin/page/open', { name, params, query })
@@ -70,4 +70,4 @@ router.afterEach(to => {
   util.title(to.query.title ? to.query.title : to.meta.title)
 })
 
-export default router
+export default routerMenu

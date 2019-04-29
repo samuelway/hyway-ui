@@ -21,4 +21,11 @@ export function assignRoleermissions (data) {
     data
   })
 }
+export function fetchRoleResList (data) {
+  return request({
+    url: '/system/res/selectRoleListTree',
+    method: 'POST',
+    data
+  })
+}
 

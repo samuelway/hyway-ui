@@ -5,7 +5,7 @@ export default [
     title: '系统管理',
     icon: 'cog',
     children: [
-      { path: '/system/user', title: '用户管理', icon: 'user' },
+      { path: '/system/user', title: '用户管理', icon: '' },
       { path: '/system/role', title: '角色管理', icon: '' },
       { path: '/system/resources', title: '菜单管理', icon: '' },
       { path: '/system/route', title: '路由管理', icon: '' },

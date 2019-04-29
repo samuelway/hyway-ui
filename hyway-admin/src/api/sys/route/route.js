@@ -33,8 +33,8 @@ export function delObj (id) {
 }
 export function refresh () {
   return request({
-    url: '/system/route/delete',
-    method: 'delete'
+    url: '/system/route/refresh',
+    method: 'GET'
   })
 }
 export function refreshRemote () {
