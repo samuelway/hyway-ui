@@ -168,13 +168,11 @@ const errorPage = [
 ]
 
 // 导出需要显示菜单的
-//export const frameInRoutes = frameIn
-//export const frameInMenuRoutes = frameMenuIn
+export const frameInRoutes = frameIn
 
 // 重新组织后导出
 export default [
-  //...frameIn,
-  //...frameMenuIn,
+  ...frameIn,
   ...frameOut,
   ...errorPage
 ]

@@ -2,10 +2,17 @@ import cookies from './util.cookies'
 import db from './util.db'
 import log from './util.log'
 
+const TokenKey = 'hyway-token'
 const util = {
   cookies,
   db,
   log
+}
+/**
+ * 获取access_token
+ */
+util.getToken = function () {
+  return util.cookies.get(TokenKey)
 }
 
 /**

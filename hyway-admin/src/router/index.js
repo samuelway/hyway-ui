@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-import store from '@/store/index'
-
 import util from '@/libs/util.js'
+import { validatenull } from '@/libs/validate.js'
+import store from '@/store/index'
+import { GetMenu } from '@/api/sys/auth/res'
+import { frameInRoutes } from '@/router/routes'
 
 // 路由数据
 import routes from './routes'
@@ -20,27 +21,45 @@ const router = new VueRouter({
  * 权限验证
  */
 router.beforeEach((to, from, next) => {
-  // 关闭搜索面板
-  store.commit('d2admin/search/set', false)
-  // 验证当前路由所有的匹配中是否需要有登录验证的
-  if (to.matched.some(r => r.meta.requiresAuth)) {
-    // 这里暂时将cookie里是否存有token作为验证是否登录的条件
-    // 请根据自身业务需要修改
-    const token = util.cookies.get('token')
-    if (token && token !== 'undefined') {
-      next()
-    } else {
-      // 将当前预计打开的页面完整地址临时存储 登录后继续跳转
-      // 这个 cookie(redirect) 会在登录后自动删除
-      util.cookies.set('redirect', to.fullPath)
-      // 没有登录的时候跳转到登录界面
-      next({
-        name: 'login'
-      })
-    }
+  console.log('进入菜单设置')
+  GetMenu()
+  if (validatenull(store.state.d2admin.user.accessToken) && !validatenull(util.getToken())) {
+    // 登录了还没有查询菜单
+    // 查询用户菜单
+    GetMenu().then(res => {
+      console.log(res)
+      // 设置用户菜单
+      store.commit('d2admin/user/SET_MENU', res.data)
+      let oRoutes = util.formatRoutes(res.data)
+      // 多页面控制: 处理路由 得到每一级的路由设置
+      store.commit('d2admin/page/init', [].concat(frameInRoutes, oRoutes))
+      // 设置侧边栏菜单
+      store.commit('d2admin/menu/asideSet', res.data)
+      // 设置顶栏菜单
+      store.commit('d2admin/menu/headerSet', res.data)
+      router.addRoutes(oRoutes)
+      next({name: 'index'})
+    }).catch(() => {
+      // 查询菜单失败 跳转到登陆界面
+      next({name: 'login'})
+    })
   } else {
-    // 不需要身份校验 直接通过
-    next()
+    // 验证当前路由所有的匹配中是否需要有登陆验证的
+    if (to.matched.some(r => r.meta.requiresAuth)) {
+      const token = util.getToken()
+      if (!validatenull(token)) {
+        // token不为空,直接放行
+        next()
+      } else {
+        // 没有token 跳转到登陆界面
+        next({
+          name: 'login'
+        })
+      }
+    } else {
+      // 不需要身份校验 直接通过
+      next()
+    }
   }
 })
 
@@ -51,7 +70,7 @@ router.afterEach(to => {
   // 多页控制 打开新的页面
   app.$store.commit('d2admin/page/open', { name, params, query })
   // 更改标题
-  util.title(to.meta.title)
+  util.title(to.query.title ? to.query.title : to.meta.title)
 })
 
 export default router
