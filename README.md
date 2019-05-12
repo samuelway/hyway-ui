@@ -5,7 +5,7 @@
 git clone https://github.com/samuelway/hyway-ui
 
 # 进入项目目录
-cd vue-element-admin
+cd hyway-ui
 
 # 安装依赖
 npm install
