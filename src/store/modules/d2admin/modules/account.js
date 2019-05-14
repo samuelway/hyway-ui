@@ -33,6 +33,7 @@ export default {
             var user = JSON.parse(res)
             util.cookies.set('uuid', user.uuid)
             util.cookies.set('token', user.token)
+            util.cookies.set('refreshToken', user.refreshToken)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
               name: user.name
@@ -60,6 +61,7 @@ export default {
        */
       async function logout () {
         // 删除cookie
+        util.cookies.remove('refreshToken')
         util.cookies.remove('token')
         util.cookies.remove('uuid')
         // 清空 vuex 用户信息

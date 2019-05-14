@@ -16,10 +16,7 @@ function errorLog (err) {
   // 添加到日志
   store.dispatch('d2admin/log/add', {
     message: '数据请求异常',
-    type: 'danger',
-    meta: {
-      error
-    }
+    type: 'danger'
   })
   // 打印到控制台
   if (process.env.NODE_ENV === 'development') {
@@ -75,9 +72,11 @@ service.interceptors.response.use(
     } else {
       // 有 code 代表这是一个后端接口 可以进行进一步的判断
       switch (code) {
-        case 0:
+        case 'GL_S000':
           // [ 示例 ] code === 0 代表没有错误
           return dataAxios.data.value
+        case 'GL_F000':  
+        return  errorCreate(`[ code: xxx ] ${dataAxios.data.msg}: ${response.config.url}`)
         case 'xxx':
           // [ 示例 ] 其它和后台约定的 code
           errorCreate(`[ code: xxx ] ${dataAxios.data.msg}: ${response.config.url}`)
