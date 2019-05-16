@@ -3,6 +3,9 @@ import Vue from 'vue'
 import App from './App'
 // 核心插件
 import d2Admin from '@/plugin/d2admin'
+
+import d2VueFiltersDayjs from '@d2-admin/filters-dayjs'
+
 // store
 import store from '@/store/index'
 // 多国语
@@ -16,7 +19,7 @@ import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
 Vue.use(d2Admin)
-
+Vue.use(d2VueFiltersDayjs)
 new Vue({
   router,
   store,
