@@ -2,7 +2,15 @@ import request from '@/plugin/axios'
 
 export function fetchList (query) {
   return request({
-    url: '/system/scheduleJob/json',
+    url: '/schedule/json',
+    method: 'GET',
+    params: query
+  })
+}
+
+export function fetchList (query) {
+  return request({
+    url: '/schedule/running/json',
     method: 'GET',
     params: query
   })
@@ -10,7 +18,7 @@ export function fetchList (query) {
 
 export function delObj (id) {
   return request({
-    url: '/system/scheduleJob/delete',
+    url: '/schedule/delete',
     method: 'delete'
   })
 }
