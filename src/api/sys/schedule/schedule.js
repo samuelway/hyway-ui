@@ -8,7 +8,7 @@ export function fetchList (query) {
   })
 }
 
-export function fetchList (query) {
+export function fetchRunningList (query) {
   return request({
     url: '/schedule/running/json',
     method: 'GET',
