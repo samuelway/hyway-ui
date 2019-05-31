@@ -1,5 +1,5 @@
 import layoutHeaderAside from '@/layout/header-aside'
-
+//import charts from './modules/charts'
 // 由于懒加载页面太多的话会造成webpack热更新太慢，所以开发环境不使用懒加载，只有生产环境使用懒加载
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 
@@ -56,7 +56,7 @@ const frameIn = [
         name: 'resources',
         meta: {
           requiresAuth: false,
-          title: '树形菜单'
+          title: '菜单'
         },
         component: () => import('@/views/system/resources/')
       }
@@ -75,6 +75,22 @@ const frameIn = [
           title: '用户'
         },
         component: () => import('@/views/system/user/')
+      }
+    ]
+  },
+  {
+    path: '/system',
+    redirect: '/system/dept',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'dept',
+        name: 'deptpage',
+        meta: {
+          requiresAuth: false,
+          title: '组织'
+        },
+        component: () => import('@/views/system/dept/')
       }
     ]
   },
@@ -139,6 +155,70 @@ const frameIn = [
           title: '路由'
         },
         component: () => import('@/views/system/schedule/')
+      }
+    ]
+  },
+  {
+    path: '/service',
+    redirect: '/service/monitor',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'monitor',
+        name: 'monitor',
+        meta: {
+          requiresAuth: false,
+          title: '监控'
+        },
+        component: () => import('@/views/service/monitor/')
+      }
+    ]
+  },
+  {
+    path: '/service',
+    redirect: '/service/registry',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'registry',
+        name: 'registry',
+        meta: {
+          requiresAuth: false,
+          title: '注册中心'
+        },
+        component: () => import('@/views/service/registry')
+      }
+    ]
+  },
+  {
+    path: '/service',
+    redirect: '/service/logging',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'logging',
+        name: 'logging',
+        meta: {
+          requiresAuth: false,
+          title: '日志'
+        },
+        component: () => import('@/views/service/logging')
+      }
+    ]
+  },
+  {
+    path: '/service',
+    redirect: '/service/docker',
+    component: layoutHeaderAside,
+    children: [
+      {
+        path: 'docker',
+        name: 'docker',
+        meta: {
+          requiresAuth: false,
+          title: 'docker'
+        },
+        component: () => import('@/views/service/docker')
       }
     ]
   }

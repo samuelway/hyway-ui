@@ -14,7 +14,7 @@ export default {
     src: {
       type: String,
       required: false,
-      default: 'https://doc.d2admin.fairyever.com/zh/'
+      default: 'http://127.0.0.1:2000'
     }
   }
 }

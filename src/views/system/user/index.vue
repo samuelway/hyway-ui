@@ -14,7 +14,7 @@
             <el-button type="default" icon="el-icon-search" @click="handleFilter">搜 索</el-button>
           </el-form-item>
       </el-form>
-      <el-button type="default" icon="el-icon-add" @click="dialogFormVisible = true">添加菜单</el-button>
+      <el-button type="default" icon="el-icon-add" style="float:right" @click="dialogFormVisible = true">添加菜单</el-button>
     </template>
     <el-table
             :key='tableKey'
@@ -101,10 +101,7 @@
         <el-input v-model="form.phone"></el-input> 
       </el-form-item>
       <el-form-item label="头像"> 
-        <el-select v-model="form.avatar" placeholder="请选择请求方式"> 
-            <el-option label="POST" value="POST"></el-option> 
-            <el-option label="GET" value="GET"></el-option>
-        </el-select> 
+        <el-input v-model="form.avatar"></el-input> 
     </el-form-item> 
     <el-form-item label="所属部门"> 
           

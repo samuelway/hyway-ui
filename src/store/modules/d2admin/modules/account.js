@@ -24,19 +24,16 @@ export default {
           password
         })
           .then(async res => {
-            if(res.code==='GL_F000'){
-              MessageBox.alert(res.message)
-              return
-            }
             // 设置 cookie 一定要存 uuid 和 token 两个 cookie
             // 整个系统依赖这两个数据进行校验和存储
             // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
             // token 代表用户当前登录状态 建议在网络请求中携带 token
             // 如有必要 token 需要定时更新，默认保存一天
+           
             let seconds =1800;
             let expires = new Date(new Date() * 1 + seconds * 1000)
             var cookieSetting = {expires:expires}
-            var userVal=JSON.parse(res.value)
+            var userVal=JSON.parse(res)
             util.cookies.set('uuid', userVal.uuid,cookieSetting)
             util.cookies.set('token', userVal.token,cookieSetting)
             util.cookies.set('refreshToken', userVal.refreshToken,cookieSetting)
