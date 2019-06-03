@@ -5,14 +5,9 @@ import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-import { validatenull } from '@/libs/validate.js'
-
 import store from '@/store/index'
 
 import util from '@/libs/util.js'
-
-import { GetMenu } from '@/api/sys/auth/res.js'
-import { frameInRoutes } from '@/router/routes'
 
 // 路由数据
 import routes from './routes'

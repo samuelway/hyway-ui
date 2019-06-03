@@ -14,7 +14,7 @@ export default {
     src: {
       type: String,
       required: false,
-      default: 'http://127.0.0.1:2000'
+      default: 'https://github.com/samuelway/hyway'
     }
   }
 }

@@ -18,20 +18,20 @@ export function getObj (id) {
   return request({
     url: '/system/user/sysUser',
     method: 'get',
-    params:{id:id}
+    params: {id:id}
   })
 }
 export function addObj (data) {
   return request({
     url: '/system/user/insertSysUser',
     method: 'post',
-    data:data
+    data: data
   })
 }
 export function updateObj (data) {
   return request({
     url: '/system/user/updateSysUser',
     method: 'post',
-    data:data
+    data: data
   })
 }
