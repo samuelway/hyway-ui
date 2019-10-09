@@ -52,6 +52,9 @@
               <span><d2-icon name="question-circle"/> 忘记密码</span>
               <span>注册用户</span>
             </p>
+            <div class="QZ-con"> 
+              <a href="https://auth.hyway.live/auth/login/qq" id="QZqqLogin" alt='QQ登陆'></a>
+            </div>
           </div>
         </div>
         <div class="page-login--content-footer">
@@ -273,6 +276,16 @@ export default {
         color: $color-text-normal;
       }
     }
+  }
+  .QZ-con a {
+    margin: 0 22px;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background: url(./image/qtlgn.png) no-repeat;
+  }
+  #QZqqLogin {
+    background-position: 0 -45px;
   }
   // 背景
   .circles {

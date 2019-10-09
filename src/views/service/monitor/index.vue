@@ -1,5 +1,5 @@
 <template>
-  <d2-container-frame src="http://47.100.166.116:9010/hyway-monitor"/>
+  <d2-container-frame src="http://127.0.0.1:9010/hyway-monitor"/>
 </template>
 
 <script>
