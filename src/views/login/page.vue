@@ -22,7 +22,9 @@
           <!-- logo
           <img class="page-login--logo" src="./image/logo@2x.png"> -->
           <!-- 表单 -->
-          <div class="page-login--form">
+          <el-tabs v-model="activeName">
+          <el-tab-pane label="用户密码登录" name="first">
+           <div class="page-login--form">
             <el-card shadow="never">
               <el-form ref="loginForm" label-position="top" :rules="rules" :model="formLogin" size="default">
                 <el-form-item prop="username">
@@ -46,15 +48,33 @@
                 <el-button size="default" @click="submit" type="primary" class="button-login">登录</el-button>
               </el-form>
             </el-card>
+            </div>
+            </el-tab-pane>
+            <el-tab-pane label="扫码登陆" name="second">
+              <div class="page-login--form" style="text-align: center;">
+                <el-card shadow="never" align="center">
+                    <img class="" src="./image/qrcode.png" width="200" height="200">
+                </el-card>
+                <div id="result" >请使用微信扫码</div>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="快捷登陆" name="third">
+              <div class="page-login--form">
+                <el-card shadow="never">
+                    <div class="QZ-con"> 
+                      <a href="https://auth.hyway.live/auth/login/qq" id="QZqqLogin" alt='QQ登陆'></a>
+                    </div>
+                </el-card>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+          <div class="page-login--form">
             <p
               class="page-login--options"
               flex="main:justify cross:center">
               <span><d2-icon name="question-circle"/> 忘记密码</span>
               <span>注册用户</span>
             </p>
-            <div class="QZ-con"> 
-              <a href="https://auth.hyway.live/auth/login/qq" id="QZqqLogin" alt='QQ登陆'></a>
-            </div>
           </div>
         </div>
         <div class="page-login--content-footer">
@@ -65,6 +85,8 @@
           </p>
           <p class="page-login--content-footer-copyright">
             Copyright <d2-icon name="copyright"/> 2019 <a href="https://github.com/samuelway/hyway.git"></a>
+            
+            鄂ICP备19014310号
           </p>
         </div>
       </div>
@@ -80,6 +102,7 @@ export default {
     return {
       timeInterval: null,
       time: dayjs().format('HH:mm:ss'),
+       activeName: 'first',
       // 快速选择用户
       dialogVisible: false,
       // 表单
