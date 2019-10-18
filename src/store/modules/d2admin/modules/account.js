@@ -47,8 +47,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.log('err: ', err)
-            reject(err)
+            MessageBox.alert('登录失败', '账号或密码错误')
           })
       })
     },

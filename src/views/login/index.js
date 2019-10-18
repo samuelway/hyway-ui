@@ -1,3 +1,3 @@
-import page from './page'
+import login from './login'
 
-export default page
+export default login

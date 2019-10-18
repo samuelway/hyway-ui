@@ -232,7 +232,11 @@ const frameOut = [
   {
     path: '/login',
     name: 'login',
-    component: _import('login')
+    component: _import('login/login')
+  },{
+    path: '/scan',
+    name: 'scan',
+    component: _import('login/scan')
   }
 ]
 

@@ -11,64 +11,42 @@
       {{time}}
     </div>
     <div class="page-login--layer">
-      <div
-        class="page-login--content"
-        flex="dir:top main:justify cross:center box:justify">
+      <div class="page-login--content"  flex="dir:top main:justify cross:center box:justify">
         <div class="page-login--content-header">
         </div>
-        <div
-          class="page-login--content-main"
-          flex="dir:top main:center cross:center">
+        <div   class="page-login--content-main"  flex="dir:top main:center cross:center">
           <!-- logo
           <img class="page-login--logo" src="./image/logo@2x.png"> -->
           <!-- 表单 -->
-          <el-tabs v-model="activeName">
-          <el-tab-pane label="用户密码登录" name="first">
-           <div class="page-login--form">
-            <el-card shadow="never">
-              <el-form ref="loginForm" label-position="top" :rules="rules" :model="formLogin" size="default">
-                <el-form-item prop="username">
-                  <el-input type="text" v-model="formLogin.username" placeholder="用户名">
-                    <i slot="prepend" class="fa fa-user-circle-o"></i>
-                  </el-input>
-                </el-form-item>
-                <el-form-item prop="password">
-                  <el-input type="password" v-model="formLogin.password" placeholder="密码">
-                    <i slot="prepend" class="fa fa-keyboard-o"></i>
-                  </el-input>
-                </el-form-item>
-                <el-form-item prop="code">
-                  <el-input type="text" v-model="formLogin.code" placeholder="- - - -">
-                    <template slot="prepend">验证码</template>
-                    <template slot="append">
-                      <img class="login-code" src="./image/login-code.png">
-                    </template>
-                  </el-input>
-                </el-form-item>
-                <el-button size="default" @click="submit" type="primary" class="button-login">登录</el-button>
-              </el-form>
-            </el-card>
-            </div>
-            </el-tab-pane>
-            <el-tab-pane label="扫码登陆" name="second">
-              <div class="page-login--form" style="text-align: center;">
-                <el-card shadow="never" align="center">
-                    <img class="" src="./image/qrcode.png" width="200" height="200">
-                </el-card>
-                <div id="result" >请使用微信扫码</div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="快捷登陆" name="third">
-              <div class="page-login--form">
-                <el-card shadow="never">
-                    <div class="QZ-con"> 
-                      <a href="https://auth.hyway.live/auth/login/qq" id="QZqqLogin" alt='QQ登陆'></a>
-                    </div>
-                </el-card>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-          <div class="page-login--form">
+          <!-- 扫码登录 -->
+          <div class="login_box">
+            <router-link to="/scan">
+            <div class="login_close"></div>
+            </router-link>
+            <div class="page-login--form">
+              <el-card shadow="never">
+                <el-form ref="loginForm" label-position="top" :rules="rules" :model="formLogin" size="default">
+                  <el-form-item prop="username">
+                    <el-input type="text" v-model="formLogin.username" placeholder="用户名">
+                      <i slot="prepend" class="fa fa-user-circle-o"></i>
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item prop="password">
+                    <el-input type="password" v-model="formLogin.password" placeholder="密码">
+                      <i slot="prepend" class="fa fa-keyboard-o"></i>
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item prop="code">
+                    <el-input type="text" v-model="formLogin.code" placeholder="- - - -">
+                      <template slot="prepend">验证码</template>
+                      <template slot="append">
+                        <img class="login-code" src="./image/login-code.png">
+                      </template>
+                    </el-input>
+                  </el-form-item>
+                  <el-button size="default" @click="submit" type="primary" class="button-login">登录</el-button>
+                </el-form>
+              </el-card>
             <p
               class="page-login--options"
               flex="main:justify cross:center">
@@ -76,6 +54,7 @@
               <span>注册用户</span>
             </p>
           </div>
+        </div>
         </div>
         <div class="page-login--content-footer">
           <p class="page-login--content-footer-options">
@@ -102,10 +81,9 @@ export default {
     return {
       timeInterval: null,
       time: dayjs().format('HH:mm:ss'),
-       activeName: 'first',
+      activeName: 'userpass',
       // 快速选择用户
       dialogVisible: false,
-      // 表单
       formLogin: {
         username: 'admin',
         password: '123456',
@@ -140,11 +118,7 @@ export default {
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
     },
-    /**
-     * @description 提交表单
-     */
-    // 提交登录信息
-    submit () {
+    submit () {// 提交登录信息
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 登录
@@ -170,6 +144,32 @@ export default {
 </script>
 
 <style lang="scss">
+/*登录框*/
+  .login_box {
+    z-index: 0;
+    position: absolute;
+    width: 360px;
+    height: 430px;
+    top: 50%;
+    left: 50%;
+    margin-left: -190px;
+    margin-top: -270px;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px #999;
+  }
+  .login_close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 64px;
+    height: 64px;
+    background: url(./image/qrcode.png) no-repeat right top;
+    background-size: 100% 100%;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    z-index: 99;
+  }
 .page-login {
   @extend %unable-select;
   $backgroundColor: #F0F2F5;
@@ -220,6 +220,8 @@ export default {
   // 登录表单
   .page-login--form {
     width: 280px;
+    padding-top: 40px;
+    padding-left: 40px;
     // 卡片
     .el-card {
       margin-bottom: 15px;
@@ -250,30 +252,6 @@ export default {
     }
     .page-login--quick {
       width: 100%;
-    }
-  }
-  // 快速选择用户面板
-  .page-login--quick-user {
-    @extend %flex-center-col;
-    padding: 10px 0px;
-    border-radius: 4px;
-    &:hover {
-      background-color: $color-bg;
-      i {
-        color: $color-text-normal;
-      }
-      span {
-        color: $color-text-normal;
-      }
-    }
-    i {
-      font-size: 36px;
-      color: $color-text-sub;
-    }
-    span {
-      font-size: 12px;
-      margin-top: 10px;
-      color: $color-text-sub;
     }
   }
   // footer
